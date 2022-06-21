@@ -1,35 +1,36 @@
 var express = require('express');
 var router = express.Router();
+var mysql = require('mysql');
+
+var con = mysql.createConnection({
+  host: "easylearning.guru",
+  user: "kcc_student",
+  password: "Kccitm.edu.in1",
+  database: "kccStudent"
+});
+
 
 router.get('/', function(req, res, next) {
+    con.connect(function(err) {
+        if (err) console.log("err");
+        console.log("Connected!");
+      });
     res.render('login')
 });
 
-router.get('/getLogin', function(req, res, next) {
-    console.log(req.query)
-    // res.send({"name":"himani"})
-    //res.render('teacher')
-res.json({"Name":requ})
-});
 router.post('/getLogin', function(req, res, next) {
     console.log(req.body)
-    // res.send({"name":"himani"})
-    //res.render('teacher')
-    console.log(req.body.pass)
+    var sql = "INSERT INTO `rajneeshh` (`email`, `pass`) \
+    VALUES ('"+req.body.email+"', '"+req.body.pass+"');"
+    console.log(sql)
+   con.connect()
+      con.query(sql, function (err, result) {
+        if (err) console.log(err);
+        console.log(result);
+      });
 res.json({"Name":req.body})
 });
 
-router.all('/getPost', function(req, res, next) {
-    console.log(req.body)
-    if(req.body){
-        //do something
-    }else{
-        //do something else
-    }
-    // res.send({"name":"himani"})
-    //res.render('teacher')
-    console.log(req.body.pass)
-res.json({"Name":req.body})
-});
+
 
 module.exports = router;
